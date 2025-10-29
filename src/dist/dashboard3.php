@@ -1,3 +1,18 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["user_id"])) {
+
+    header("Location: ../login.php");
+
+    exit;
+
+}
+
+
+?>
+
 <!doctype html>
 <html lang="en">
   <!--begin::Head-->
@@ -218,22 +233,22 @@
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="./assets/img/user2-160x160.jpg"
+                  src="/Web Ventas/images/perfil.jpg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline"><?php echo "Bienvenid@, " . $_SESSION["username"]?></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="./assets/img/user2-160x160.jpg"
+                    src="/Web Ventas/images/perfil.jpg"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
+                    <?php echo $_SESSION["username"]?> - Web Developer
                     <small>Member since Nov. 2023</small>
                   </p>
                 </li>
@@ -252,7 +267,7 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="logout.php" class="btn btn-default btn-flat float-end">Sign out</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -300,7 +315,7 @@
                 <a href="#" class="nav-link active">
                   <i class="nav-icon bi bi-speedometer"></i>
                   <p>
-                    Dashboard
+                    Clientes
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
@@ -308,19 +323,19 @@
                   <li class="nav-item">
                     <a href="dashboard.php" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Dashboard v1</p>
+                      <p>Gestion de Clientes</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="./dashboard2.php" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Dashboard v2</p>
+                      <p>Vendedores</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="./dashboard3.php" class="nav-link active">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Dashboard v3</p>
+                      <p>Vendedores</p>
                     </a>
                   </li>
                 </ul>
