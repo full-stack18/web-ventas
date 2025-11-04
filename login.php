@@ -1,6 +1,9 @@
 <?php
 require 'conexionPDO.php';
+
 session_start();
+
+require 'google_config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
@@ -230,7 +233,9 @@ button{
 
         <button>Log In</button>
         <div class="social">
-          <div class="go"><i class="fab fa-google"></i>  Google</div>
+          <a href="<?php echo htmlspecialchars($google_login_url); ?>" style="text-decoration: none;">
+              <div class="go"><i class="fab fa-google"></i>  Google</div>
+          </a>
           <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
         </div>
     </form>
