@@ -113,7 +113,7 @@ if($_POST){
 
                             <button type="submit" class="btn btn-primary">Crear Cliente</button>
 
-                            <a href="index.php" class="btn btn-secondary">Volver</a>
+                            <a href="/Web Ventas/src/dist/dashboard.php" class="btn btn-secondary">Volver</a>
 
                         </form>
 

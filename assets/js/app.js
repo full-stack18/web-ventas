@@ -2,8 +2,25 @@
 (() => {
   const root = document.documentElement;
   const body = document.body;
+  
   const toggleTheme = (isDark) => {
-    if (isDark) body.classList.add('dark'); else body.classList.remove('dark');
+    if (isDark) {
+      body.classList.add('dark');
+      root.style.setProperty('--bg-primary', '#1e1e1e');
+      root.style.setProperty('--bg-secondary', '#2d2d2d');
+      root.style.setProperty('--text', '#e8e8e8');
+      root.style.setProperty('--text-muted', '#a0a0a0');
+      root.style.setProperty('--border', '#404040');
+      root.style.setProperty('--accent', '#4da3ff');
+    } else {
+      body.classList.remove('dark');
+      root.style.setProperty('--bg-primary', '#ffffff');
+      root.style.setProperty('--bg-secondary', '#f8f9fa');
+      root.style.setProperty('--text', '#333333');
+      root.style.setProperty('--text-muted', '#6c757d');
+      root.style.setProperty('--border', '#dee2e6');
+      root.style.setProperty('--accent', '#0d6efd');
+    }
     localStorage.setItem('theme-dark', isDark ? '1' : '0');
   }
 
@@ -17,68 +34,59 @@
     toggleTheme(stored === '1');
   }
 
-  // Crear botón toggle si existe contenedor
   document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.app-header');
-    if (!container) return;
-    // preferir un botón estático si existe
+    // Buscar o crear botón toggle
     let btn = document.getElementById('themeToggleBtn');
     if (!btn) {
-      btn = document.createElement('button');
-      btn.className = 'theme-toggle';
-      btn.type = 'button';
-      btn.setAttribute('aria-label', 'Alternar modo oscuro');
-      container.appendChild(btn);
+      const container = document.querySelector('.app-header');
+      if (container) {
+        btn = document.createElement('button');
+        btn.id = 'themeToggleBtn';
+        btn.className = 'theme-toggle';
+        btn.type = 'button';
+        btn.setAttribute('aria-label', 'Alternar modo oscuro');
+        container.appendChild(btn);
+      }
     }
-    // helper para actualizar icono y tooltip
+
+    if (!btn) return;
+
+    // Helper para actualizar icono y tooltip
     const setIcon = (isDark) => {
       if (isDark) {
-        // mostrar icono de sol para indicar "volver a claro"
         btn.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"></circle>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
           </svg>`;
         btn.title = 'Cambiar a modo claro';
         btn.setAttribute('aria-pressed', 'true');
       } else {
-        // mostrar icono de luna para indicar "activar oscuro"
         btn.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
           </svg>`;
         btn.title = 'Cambiar a modo oscuro';
         btn.setAttribute('aria-pressed', 'false');
       }
     };
 
-    // establecer icono inicial
+    // Establecer icono inicial
     setIcon(document.body.classList.contains('dark'));
 
+    // Click handler
     btn.addEventListener('click', () => {
       const isDark = !document.body.classList.contains('dark');
       toggleTheme(isDark);
       setIcon(isDark);
     });
 
-    // Nota: el ordenamiento debe controlarse desde los botones a la derecha de la tabla (servidor-side).
-    // No se añaden manejadores de click en los encabezados para evitar ordenamiento cliente inesperado.
-
-    // Mostrar animación del panel de creación (si existe)
-    const formPanel = document.querySelector('.form-panel');
-    if (formPanel) {
-      // small delay for nicer entrance
-      requestAnimationFrame(() => setTimeout(() => formPanel.classList.add('show'), 60));
-    }
-
-    // Modal dynamic loader: cargar fragmento create_fragment.php
+    // Modal dynamic loader
     const openNewBtn = document.getElementById('openNewBtn');
     const openNewBtnTailwind = document.getElementById('openNewBtnTailwind');
     const newModal = document.getElementById('newModal');
     const modalInner = document.getElementById('modalInner');
-    const openTailwindBtn = document.getElementById('openTailwindBtn');
 
-    // Función para inicializar el modal
     const initializeModal = () => {
       const modalInner = document.getElementById('modalInner');
       const newModal = document.getElementById('newModal');
@@ -88,16 +96,15 @@
         return false;
       }
       
-      // cancelar
       const cancelBtn = modalInner.querySelector('#modalCancel');
       if (cancelBtn) {
         cancelBtn.addEventListener('click', (ev) => {
           ev.preventDefault();
           newModal.classList.remove('show');
+          newModal.setAttribute('aria-hidden', 'true');
         });
       }
 
-      // submit
       const modalForm = modalInner.querySelector('#modalForm');
       if (modalForm) {
         modalForm.addEventListener('submit', async (ev) => {
@@ -108,7 +115,7 @@
           
           if (submitBtn) {
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Guardando...';
+            submitBtn.innerHTML = '⏳ Guardando...';
           }
           if (cancelBtn2) cancelBtn2.disabled = true;
           
@@ -126,9 +133,10 @@
             const json = await res.json();
             
             if (json && json.success) {
-              if (submitBtn) submitBtn.textContent = '✔ Guardado';
+              if (submitBtn) submitBtn.innerHTML = '✔ Guardado';
               setTimeout(() => {
                 newModal.classList.remove('show');
+                newModal.setAttribute('aria-hidden', 'true');
                 window.location.reload();
               }, 400);
             } else {
@@ -155,7 +163,6 @@
       return true;
     };
 
-    // Manejador para abrir modal
     const handleOpenNewClick = async (e) => {
       e.preventDefault();
       const newModal = document.getElementById('newModal');
@@ -166,8 +173,9 @@
         return;
       }
       
-      modalInner.innerHTML = '<div class="spinner small" aria-hidden="true" style="padding: 2rem; text-align: center;">Cargando...</div>';
+      modalInner.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">Cargando formulario...</div>';
       newModal.classList.add('show');
+      newModal.setAttribute('aria-hidden', 'false');
       
       try {
         const res = await fetch('create_fragment.php');
@@ -182,43 +190,32 @@
         
         modalInner.innerHTML = html;
         
-        // Focus al primer input
         const firstInput = modalInner.querySelector('input[name="vendedor"]');
         if (firstInput) firstInput.focus();
         
-        // Inicializar evento del formulario
         initializeModal();
         
       } catch (err) {
         console.error('Error al cargar formulario:', err);
-        modalInner.innerHTML = '<div class="p-3 text-center" style="padding: 2rem;"><p style="color: red;">Error al cargar el formulario</p><p style="font-size: 0.9rem;">' + (err.message || '') + '</p><button onclick="document.getElementById(\'newModal\').classList.remove(\'show\')" style="margin-top: 1rem; padding: 0.5rem 1rem; cursor: pointer;">Cerrar</button></div>';
+        modalInner.innerHTML = '<div style="padding: 2rem; text-align: center;"><p style="color: var(--danger); font-weight: 600; margin-bottom: 1rem;">❌ Error al cargar el formulario</p><p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">' + (err.message || '') + '</p><button onclick="document.getElementById(\'newModal\').classList.remove(\'show\'); document.getElementById(\'newModal\').setAttribute(\'aria-hidden\', \'true\');" class="btn btn-primary" style="margin-top: 0.5rem;">Cerrar</button></div>';
       }
     };
 
     if (openNewBtn) {
       openNewBtn.addEventListener('click', handleOpenNewClick);
     }
-    
+
     if (openNewBtnTailwind) {
       openNewBtnTailwind.addEventListener('click', handleOpenNewClick);
     }
 
-    if (openTailwindBtn) {
-      openTailwindBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.href = 'index-tailwind.php'; });
+    if (newModal) {
+      newModal.addEventListener('click', (e) => {
+        if (e.target === newModal) {
+          newModal.classList.remove('show');
+          newModal.setAttribute('aria-hidden', 'true');
+        }
+      });
     }
-
-    // Modal behavior is handled by the dynamic loader above.
-    // Ensure Escape closes the modal backdrop when open
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') {
-      const m = document.getElementById('newModal'); if (m && m.classList.contains('show')) m.classList.remove('show');
-    } });
-    // close when clicking on backdrop (delegated)
-    document.addEventListener('click', (e) => {
-      const m = document.getElementById('newModal');
-      if (!m) return;
-      if (e.target === m) m.classList.remove('show');
-    });
   });
-
-  // No hay sortTable() — el ordenamiento se realiza en el servidor mediante los botones de la UI.
 })();

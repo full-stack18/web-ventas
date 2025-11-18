@@ -84,6 +84,12 @@ if (!isset($_SESSION["user_id"])) {
       integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
       crossorigin="anonymous"
     />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
   </head>
   <!--end::Head-->
   <!--begin::Body-->
@@ -114,37 +120,6 @@ if (!isset($_SESSION["user_id"])) {
               </a>
             </li>
             <!--end::Navbar Search-->
-            <!--begin::Messages Dropdown Menu-->
-            
-            <!--end::Messages Dropdown Menu-->
-            <!--begin::Notifications Dropdown Menu-->
-            <li class="nav-item dropdown">
-              <a class="nav-link" data-bs-toggle="dropdown" href="#">
-                <i class="bi bi-bell-fill"></i>
-                <span class="navbar-badge badge text-bg-warning">15</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-envelope me-2"></i> 4 new messages
-                  <span class="float-end text-secondary fs-7">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-people-fill me-2"></i> 8 friend requests
-                  <span class="float-end text-secondary fs-7">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                  <i class="bi bi-file-earmark-fill me-2"></i> 3 new reports
-                  <span class="float-end text-secondary fs-7">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer"> See All Notifications </a>
-              </div>
-            </li>
-            <!--end::Notifications Dropdown Menu-->
             <!--begin::Fullscreen Toggle-->
             <li class="nav-item">
               <a class="nav-link" href="#" data-lte-toggle="fullscreen">
@@ -167,7 +142,7 @@ if (!isset($_SESSION["user_id"])) {
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="./assets/img/user2-160x160.jpg"
+                    src="/Web Ventas/images/perfil.jpg"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -190,8 +165,8 @@ if (!isset($_SESSION["user_id"])) {
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <a href="logout.php" class="btn btn-default btn-flat float-end">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                  <a href="logout.php" class="btn btn-default btn-flat float-end">Salir</a>
                 </li>
                 <!--end::Menu Footer-->
               </ul>
@@ -247,13 +222,13 @@ if (!isset($_SESSION["user_id"])) {
                   <li class="nav-item">
                     <a href="./dashboard.php" class="nav-link active">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Gestion de Clientes</p>
+                      <p>Gestión de Clientes</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="./dashboard2.php" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
-                      <p>Vendedores</p>
+                      <p>Gestión de Ventas</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -274,268 +249,114 @@ if (!isset($_SESSION["user_id"])) {
       <!--begin::App Main-->
       <main class="app-main">
         <!--begin::App Content Header-->
-        <div class="app-content-header">
-        <?php
+        <div class="app-content">
+          <!--begin::Container-->
+          <div class="container-fluid">
 
-include_once __DIR__ . '/../../tcpdf/database.php';
-include_once __DIR__ . '/../../tcpdf/Cliente.php';
+            <?php
+            include_once __DIR__ . '/../../tcpdf/database.php';
+            include_once __DIR__ . '/../../tcpdf/Cliente.php';
 
+            $database = new Database();
+            $db = $database->getConnection();
+            $cliente = new Cliente($db);
 
-$database = new Database();
+            $stmt = $cliente->leer();
+            $num = $stmt->rowCount();
+            $total_clientes = $cliente->contar();
+            ?>
 
-$db = $database->getConnection();
-
-$cliente = new Cliente($db);
-
-
-$stmt = $cliente->leer();
-
-$num = $stmt->rowCount();
-
-$total_clientes = $cliente->contar();
-
-?>
-
-<!DOCTYPE html>
-
-<html lang="es">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CRUD de Clientes</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
-    <style>
-
-        .header-crud {
-
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-
-            color: white;
-
-            padding: 25px 0;
-
-            margin-bottom: 30px;
-
-        }
-
-        .btn-pdf {
-
-            background: #dc3545;
-
-            color: white;
-
-            border: none;
-
-        }
-
-        .btn-pdf:hover {
-
-            background: #c82333;
-
-            color: white;
-
-        }
-
-        .table-actions .btn {
-
-            margin: 2px;
-
-            padding: 5px 10px;
-
-        }
-
-    </style>
-
-</head>
-
-<body>
-
-    <div class="header-crud">
-
-        <div class="container">
-
-            <h1 class="text-center"><i class="fas fa-users me-2"></i>Gestión de Clientes</h1>
-
-            <p class="text-center mb-0">Sistema CRUD completo con generación de PDF</p>
-
-        </div>
-
-    </div>
-
-
-    <div class="container">
-
-        <!-- Botones de Acción -->
-
-        <div class="row mb-4">
-
-            <div class="col-md-6">
-
-                <a href="../../tcpdf/crear.php" class="btn btn-primary">
-
-                    <i class="fas fa-plus-circle me-1"></i>Nuevo Cliente
-
-                </a>
-
-                <a href="../../tcpdf/generar_pdf.php" class="btn btn-pdf" target="_blank">
-
-                    <i class="fas fa-file-pdf me-1"></i>Generar PDF
-
-                </a>
-
+            <!-- Gestión de Clientes CRUD -->
+            <div class="header-crud" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px 0; margin-bottom: 30px;">
+              <div class="container">
+                <h1 class="text-center"><i class="bi bi-people-fill me-2"></i>Gestión de Clientes</h1>
+                <p class="text-center mb-0">Sistema CRUD completo con generación de PDF</p>
+              </div>
             </div>
 
-            <div class="col-md-6 text-end">
-
-                <span class="badge bg-secondary fs-6">
-
-                    <i class="fas fa-chart-bar me-1"></i>
-
+            <div class="container">
+              <!-- Botones de Acción -->
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <a href="../../tcpdf/crear.php" class="btn btn-primary">
+                    <i class="bi bi-plus-circle me-1"></i>Nuevo Cliente
+                  </a>
+                  <a href="../../tcpdf/generar_pdf.php" class="btn btn-danger" target="_blank">
+                    <i class="bi bi-file-pdf me-1"></i>Generar PDF
+                  </a>
+                </div>
+                <div class="col-md-6 text-end">
+                  <span class="badge bg-secondary fs-6">
+                    <i class="bi bi-bar-chart me-1"></i>
                     Total: <?php echo $total_clientes; ?> clientes
+                  </span>
+                </div>
+              </div>
 
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Tabla de Clientes -->
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <h5 class="card-title mb-0">
-
-                    <i class="fas fa-list me-2"></i>Lista de Clientes
-
-                </h5>
-
-            </div>
-
-            <div class="card-body">
-
-                <?php if($num > 0): ?>
-
-                <div class="table-responsive">
-
+              <!-- Tabla de Clientes -->
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title mb-0">
+                    <i class="bi bi-list me-2"></i>Lista de Clientes
+                  </h5>
+                </div>
+                <div class="card-body">
+                  <?php if($num > 0): ?>
+                  <div class="table-responsive">
                     <table class="table table-striped table-hover">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>ID</th>
-
-                                <th>Nombre</th>
-
-                                <th>Email</th>
-
-                                <th>Teléfono</th>
-
-                                <th>Dirección</th>
-
-                                <th>Acciones</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-
-                            <tr>
-
-                                <td><?php echo $row['id']; ?></td>
-
-                                <td><?php echo htmlspecialchars($row['nombre']); ?></td>
-
-                                <td><?php echo htmlspecialchars($row['email']); ?></td>
-
-                                <td><?php echo htmlspecialchars($row['telefono']); ?></td>
-
-                                <td><?php echo htmlspecialchars($row['direccion']); ?></td>
-
-                                <td class="table-actions">
-
-                                    <a href="../../tcpdf/generar_pdf_individual.php?id=<?php echo $row['id']; ?>" 
-
-                                       class="btn btn-warning btn-sm" 
-
-                                       target="_blank"
-
-                                       title="Generar PDF">
-
-                                        <i class="fas fa-file-pdf"></i>
-
-                                    </a>
-
-                                    <a href="../../tcpdf/editar.php?id=<?php echo $row['id']; ?>" 
-
-                                       class="btn btn-primary btn-sm"
-
-                                       title="Editar">
-
-                                        <i class="fas fa-edit"></i>
-
-                                    </a>
-
-                                    <a href="../../tcpdf/eliminar.php?id=<?php echo $row['id']; ?>" 
-
-                                       class="btn btn-danger btn-sm"
-
-                                       onclick="return confirm('¿Estás seguro de eliminar este cliente?')"
-
-                                       title="Eliminar">
-
-                                        <i class="fas fa-trash"></i>
-
-                                    </a>
-
-                                </td>
-
-                            </tr>
-
-                            <?php endwhile; ?>
-
-                        </tbody>
-
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Nombre</th>
+                          <th>Email</th>
+                          <th>Teléfono</th>
+                          <th>Dirección</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                        <tr>
+                          <td><?php echo $row['id']; ?></td>
+                          <td><?php echo htmlspecialchars($row['nombre']); ?></td>
+                          <td><?php echo htmlspecialchars($row['email']); ?></td>
+                          <td><?php echo htmlspecialchars($row['telefono']); ?></td>
+                          <td><?php echo htmlspecialchars($row['direccion']); ?></td>
+                          <td style="margin: 2px; padding: 5px 10px;">
+                            <a href="../../tcpdf/generar_pdf_individual.php?id=<?php echo $row['id']; ?>" 
+                               class="btn btn-warning btn-sm" 
+                               target="_blank"
+                               title="Generar PDF">
+                              <i class="bi bi-file-pdf"></i>
+                            </a>
+                            <a href="../../tcpdf/editar.php?id=<?php echo $row['id']; ?>" 
+                               class="btn btn-primary btn-sm"
+                               title="Editar">
+                              <i class="bi bi-pencil"></i>
+                            </a>
+                            <a href="../../tcpdf/eliminar.php?id=<?php echo $row['id']; ?>" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Estás seguro de eliminar este cliente?')"
+                               title="Eliminar">
+                              <i class="bi bi-trash"></i>
+                            </a>
+                          </td>
+                        </tr>
+                        <?php endwhile; ?>
+                      </tbody>
                     </table>
-
+                  </div>
+                  <?php else: ?>
+                  <div class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle me-2"></i>No hay clientes registrados.
+                  </div>
+                  <?php endif; ?>
                 </div>
-
-                <?php else: ?>
-
-                <div class="alert alert-warning text-center">
-
-                    <i class="fas fa-exclamation-triangle me-2"></i>No hay clientes registrados.
-
-                </div>
-
-                <?php endif; ?>
-
+              </div>
             </div>
-
-        </div>
-
-    </div>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+            <!--end::Container-->
+          </div>
+          <!--end::App Content-->
         </div>
         <!--end::App Content-->
       </main>

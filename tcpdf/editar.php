@@ -130,7 +130,7 @@ if($cliente->leerUno()){
 
                             <button type="submit" class="btn btn-primary">Actualizar Cliente</button>
 
-                            <a href="index.php" class="btn btn-secondary">Volver</a>
+                            <a href="/Web Ventas/src/dist/dashboard.php" class="btn btn-secondary">Volver</a>
 
                         </form>
 

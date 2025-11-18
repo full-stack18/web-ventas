@@ -1,0 +1,809 @@
+/* ============================================
+   Modern Web Ventas - Stylesheet
+   ============================================ */
+
+:root {
+  --primary: #0d6efd;
+  --success: #198754;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --info: #0dcaf0;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text: #333333;
+  --text-muted: #6c757d;
+  --border: #dee2e6;
+  --accent: #0d6efd;
+  --success-rgb: 25, 135, 84;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text: #e8e8e8;
+  --text-muted: #a0a0a0;
+  --border: #404040;
+  --accent: #4da3ff;
+}
+
+body.dark {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text: #e8e8e8;
+  --text-muted: #a0a0a0;
+  --border: #404040;
+  --accent: #4da3ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Transiciones suaves para todos los elementos en modo oscuro */
+body.dark,
+body.dark * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* ============================================
+   Header / Branding
+   ============================================ */
+
+.app-header {
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(25, 135, 84, 0.05) 100%);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--success) 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.brand h5, .brand .h5 {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: var(--text);
+}
+
+.small-muted {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ============================================
+   Cards & Containers
+   ============================================ */
+
+.card-modern {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.bg-animated {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  overflow: hidden;
+}
+
+.accent-bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.bubble-1 {
+  width: 300px;
+  height: 300px;
+  background: var(--primary);
+  top: -100px;
+  right: -100px;
+}
+
+.bubble-2 {
+  width: 200px;
+  height: 200px;
+  background: var(--success);
+  bottom: -50px;
+  left: -50px;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+  padding: 0.625rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, #0b5ed7 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+  color: white;
+}
+
+.btn-soft-primary {
+  background: rgba(13, 110, 253, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+.btn-soft-primary:hover {
+  background: rgba(13, 110, 253, 0.2);
+  color: var(--primary);
+}
+
+.btn-soft-success {
+  background: rgba(25, 135, 84, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(25, 135, 84, 0.2);
+}
+
+.btn-soft-success:hover {
+  background: rgba(25, 135, 84, 0.2);
+  color: var(--success);
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-secondary {
+  background: var(--text-muted);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  color: white;
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c82333;
+  color: white;
+}
+
+.btn-back {
+  background: transparent;
+  color: var(--primary);
+  border: none;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  color: #0b5ed7;
+  transform: translateX(-4px);
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+/* ============================================
+   Forms & Inputs
+   ============================================ */
+
+.form-control,
+.form-select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-primary);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  background: var(--bg-primary);
+  color: var(--text);
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.form-panel {
+  max-width: 100%;
+}
+
+.create-screen {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+
+.table-responsive {
+  background: var(--bg-primary);
+  border-radius: 8px;
+  overflow-x: auto;
+  transition: background-color 0.3s ease;
+}
+
+.table {
+  background: var(--bg-primary) !important;
+  color: var(--text) !important;
+}
+
+body.dark .table {
+  background: var(--bg-primary) !important;
+}
+
+.table-modern {
+  border-collapse: collapse;
+  width: 100%;
+  background: var(--bg-primary) !important;
+  color: var(--text) !important;
+}
+
+.table-modern thead {
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.08) 0%, rgba(25, 135, 84, 0.05) 100%) !important;
+  border-bottom: 2px solid var(--border);
+}
+
+body.dark .table-modern thead {
+  background: linear-gradient(135deg, rgba(77, 163, 255, 0.08) 0%, rgba(100, 200, 100, 0.05) 100%) !important;
+}
+
+.table-modern th {
+  padding: 1rem;
+  font-weight: 600;
+  color: var(--text) !important;
+  text-align: left;
+  background: inherit;
+}
+
+.table-modern td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text) !important;
+  background: var(--bg-primary) !important;
+}
+
+body.dark .table-modern td {
+  background: var(--bg-primary) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.table-modern tbody tr:hover {
+  background: rgba(13, 110, 253, 0.03) !important;
+}
+
+body.dark .table-modern tbody tr:hover {
+  background: rgba(77, 163, 255, 0.08) !important;
+}
+
+/* ============================================
+   Modal Styles
+   ============================================ */
+
+.modal-backdrop-custom {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-backdrop-custom.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-backdrop-custom[aria-hidden="false"] {
+  display: flex;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.modal-panel {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  padding: 2rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.modal-backdrop-custom.show .modal-panel {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content-fragment h5 {
+  color: var(--text);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content-fragment form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ============================================
+   Chips / Badges
+   ============================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(13, 110, 253, 0.1);
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(13, 110, 253, 0.2);
+}
+
+/* ============================================
+   Table Controls
+   ============================================ */
+
+.table-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ============================================
+   Theme Toggle
+   ============================================ */
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: var(--text);
+  font-size: 1.2rem;
+  padding: 0;
+  min-width: 40px;
+}
+
+.theme-toggle:hover {
+  background: rgba(13, 110, 253, 0.1);
+  transform: scale(1.05);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* ============================================
+   Utilities
+   ============================================ */
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-3 {
+  gap: 1rem;
+}
+
+.gap-4 {
+  gap: 1.5rem;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-3 {
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: right;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.h4 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.h5 {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .app-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-modern {
+    padding: 1.5rem;
+  }
+
+  .modal-panel {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  .row {
+    gap: 1rem;
+  }
+
+  .col-lg-5,
+  .col-lg-7 {
+    flex: 0 0 100%;
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .table-modern th,
+  .table-modern td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .h5 {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-header {
+    padding: 1rem;
+  }
+
+  .card-modern {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .accent-bubble {
+    display: none;
+  }
+
+  .modal-panel {
+    width: 100%;
+    max-height: 85vh;
+  }
+
+  .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .h4 {
+    font-size: 1.5rem;
+  }
+
+  .h5 {
+    font-size: 1.1rem;
+  }
+
+  .table-controls {
+    justify-content: flex-start;
+  }
+}
+
+/* ============================================
+   Success/Error States
+   ============================================ */
+
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background: rgba(25, 135, 84, 0.1);
+  border-left-color: var(--success);
+  color: var(--success);
+}
+
+.alert-danger {
+  background: rgba(220, 53, 69, 0.1);
+  border-left-color: var(--danger);
+  color: var(--danger);
+}
+
+.alert-info {
+  background: rgba(13, 110, 253, 0.1);
+  border-left-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ============================================
+   Text Utilities
+   ============================================ */
+
+p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* ============================================
+   Container & Grid
+   ============================================ */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+}
+
+.col-lg-5 {
+  flex: 0 0 calc(40% - 1rem);
+}
+
+.col-lg-7 {
+  flex: 0 0 calc(60% - 1rem);
+}
+
+.py-5 {
+  padding: 3rem 0;
+}
+
+.g-4 {
+  gap: 2rem;
+}
+
+/* ============================================
+   Custom scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(13, 110, 253, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(13, 110, 253, 0.5);
+}
+
+/* ============================================
+   SVG Styling
+   ============================================ */
+
+svg {
+  transition: all 0.3s ease;
+}
+
+/* ============================================
+   Spinner/Loading
+   ============================================ */
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(13, 110, 253, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner.small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

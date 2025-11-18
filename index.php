@@ -47,9 +47,14 @@ $result = $conexion->query($sql);
 									<button id="openNewBtn" class="btn btn-soft-primary">Nueva venta</button>
 									<!-- Simple link styled as button to the Tailwind index -->
 									<a href="index-tailwind.php" class="btn btn-outline-primary" title="Abrir versión Tailwind" style="display:inline-flex;align-items:center;gap:8px;">
-										<!-- small Tailwind-like icon -->
-										<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3C7 3 4 6 4 10s3 7 8 7 8-3 8-7-3-7-8-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+										<!-- Tailwind icon - REEMPLAZA EL SVG AQUÍ -->
+										<img src="assets/images/Tailwind CSS.svg" alt="Tailwind" width="16" height="16" style="display:inline-block;">
 										Tailwind
+									</a>
+									<!-- Dashboard button -->
+									<a href="registrar.php" class="btn btn-soft-success" title="Ir a Registrar" style="display:inline-flex;align-items:center;gap:8px;">
+										<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+										Registrar
 									</a>
 									<!-- Theme toggle (static) -->
 									<button id="themeToggleBtn" class="theme-toggle" title="Alternar tema" aria-label="Alternar modo oscuro"></button>
